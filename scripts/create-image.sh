@@ -102,9 +102,9 @@ echo "Create super.img..."
 sudo ./lpunpack_and_lpmake/bin/lpmake --metadata-size 65536 --metadata-slots 1 --sparse --super-name super --device super:8589934592 --group sailfish:8585740288 --partition system_a:none:8388608000:sailfish --image system_a=$OUTPUTDIR/sfe-$DEVICE-$RELEASE$EXTRA_NAME/root.img --output $OUTPUTDIR/sfe-$DEVICE-$RELEASE$EXTRA_NAME/super.img
 
 echo "Pack final image..."
-sudo mv $OUTPUTDIR/sfe-$DEVICE-$RELEASE$EXTRA_NAME $OUTPUTDIR/SailfishOS-vidofnir
-sudo rm $OUTPUTDIR/SailfishOS-vidofnir/root.img
-sudo 7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on /share/output/SailfishOS-vidofnir.7z  $OUTPUTDIR/SailfishOS-vidofnir
+sudo mv $OUTPUTDIR/sfe-$DEVICE-$RELEASE$EXTRA_NAME $OUTPUTDIR/SailfishOS-$DEVICE
+sudo rm $OUTPUTDIR/SailfishOS-$DEVICE/root.img
+sudo 7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on /share/output/SailfishOS-$DEVICE.7z  $OUTPUTDIR/SailfishOS-$DEVICE
 
 pwd
 find /share
