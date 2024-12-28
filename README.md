@@ -1,3 +1,3 @@
-# Sailfish on vidofnir
+# Sailfish on algiz
 
 Release build CI
