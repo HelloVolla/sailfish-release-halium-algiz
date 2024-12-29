@@ -100,13 +100,14 @@ export LDFLAGS="-lstdc++fs -L/usr/lib/gcc/aarch64-meego-linux-gnuabi/8.3.0/"
 
 echo "Create super.img..."
 kib=$((2**10)); mib=$((2**20))
-super_max_size=$((8192*$mib))
+super_max_size=$((7168*$mib))
 group_size=$((super_max_size-$((4*$mib))))
+root_size=$((group_size-$((4*$mib))))
 sudo ./lpunpack_and_lpmake/bin/lpmake \
       --metadata-size $((64*$kib)) --metadata-slots 2 \
       --sparse --super-name super \
       --device super:$super_max_size --group sailfish:$group_size \
-      --partition system_a:none:$((8180*$mib)):sailfish \
+      --partition system_a:none:$root_size:sailfish \
       --image system_a=$OUTPUTDIR/sfe-$DEVICE-$RELEASE$EXTRA_NAME/root.img \
       --output $OUTPUTDIR/sfe-$DEVICE-$RELEASE$EXTRA_NAME/super.img
 
