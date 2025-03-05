@@ -40,12 +40,14 @@ done
 [ -z "$DEVICE" ] && (echo "Device has to be specified with DEVICE= env" && exit -1)
 [ -z "$RELEASE" ] && (echo "Release has to be specified with --release option" && exit -1)
 
+RELEASEMAJMIN=${RELEASE:0:3}
+
 case $VERSION in
     testing)
-		URL=http://repo.merproject.org/obs/nemo:/testing:/hw:/$VENDOR:/$DEVICE/sailfishos_${RELEASE}
+		URL=http://repo.sailfishos.org/obs/nemo:/testing:/hw:/$VENDOR:/$DEVICE:/$RELEASE/sailfish_${RELEASE}_$PORT_ARCH/
 		;;
     devel)
-		URL=http://repo.merproject.org/obs/nemo:/devel:/hw:/$VENDOR:/$DEVICE/sailfish_latest_$PORT_ARCH
+		URL=http://repo.sailfishos.org/obs/nemo:/devel:/hw:/$VENDOR:/$DEVICE/sailfish_latest_$PORT_ARCH
 		;;
     *)
 	echo "Version (devel or testing) is not specified using --testing option"
@@ -82,7 +84,7 @@ df -h
 
 echo "Creating mic with $OUTPUTDIR/Jolla-\@RELEASE\@-$DEVICE-$VERSION-\@ARCH\@.ks "
 sudo mic create loop --arch=$PORT_ARCH \
- --tokenmap=ARCH:$PORT_ARCH,RELEASE:$RELEASE,EXTRA_NAME:$EXTRA_NAME,DEVICEMODEL:$DEVICE \
+ --tokenmap=ARCH:$PORT_ARCH,RELEASE:$RELEASE,RELEASEMAJMIN:$RELEASEMAJMIN,EXTRA_NAME:$EXTRA_NAME,DEVICEMODEL:$DEVICE \
  --record-pkgs=name,url \
  --outdir=$OUTPUTDIR/sfe-$DEVICE-$RELEASE$EXTRA_NAME \
  $OUTPUTDIR/Jolla-\@RELEASE\@-$DEVICE-$VERSION-\@ARCH\@.ks 
