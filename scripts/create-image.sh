@@ -2,14 +2,14 @@
 set -e
 echo "Prepare steps..."
 cd /share
-sudo mkdir -p output
-sudo mkdir -p build
-sudo chmod 777 output
-sudo chmod 777 build
+mkdir -p output
+mkdir -p build
+chmod 777 output
+chmod 777 build
 cd build
 
 echo "Install packages..."
-sudo zypper -n in kmod lvm2 atruncate pigz android-tools  curl clang git zlib-devel glibc-devel glibc-static libstdc++-devel p7zip ;
+zypper -n in kmod lvm2 atruncate pigz android-tools  curl clang git zlib-devel glibc-devel glibc-static libstdc++-devel p7zip ;
 
 # Creates an image under mic/fe-$DEVICE-$RELEASE$EXTRA_NAME 
 # after downloading the kickstart file from the testing or devel repo.	
@@ -83,7 +83,7 @@ mount
 df -h
 
 echo "Creating mic with $OUTPUTDIR/Jolla-\@RELEASE\@-$DEVICE-$VERSION-\@ARCH\@.ks "
-sudo mic create loop --arch=$PORT_ARCH \
+mic create loop --arch=$PORT_ARCH \
  --tokenmap=ARCH:$PORT_ARCH,RELEASE:$RELEASE,RELEASEMAJMIN:$RELEASEMAJMIN,EXTRA_NAME:$EXTRA_NAME,DEVICEMODEL:$DEVICE \
  --record-pkgs=name,url \
  --outdir=$OUTPUTDIR/sfe-$DEVICE-$RELEASE$EXTRA_NAME \
@@ -105,7 +105,7 @@ kib=$((2**10)); mib=$((2**20))
 super_max_size=$((7168*$mib))
 group_size=$((super_max_size-$((4*$mib))))
 root_size=$((group_size-$((4*$mib))))
-sudo ./lpunpack_and_lpmake/bin/lpmake \
+./lpunpack_and_lpmake/bin/lpmake \
       --metadata-size $((64*$kib)) --metadata-slots 2 \
       --sparse --super-name super \
       --device super:$super_max_size --group sailfish:$group_size \
@@ -114,9 +114,9 @@ sudo ./lpunpack_and_lpmake/bin/lpmake \
       --output $OUTPUTDIR/sfe-$DEVICE-$RELEASE$EXTRA_NAME/super.img
 
 echo "Pack final image..."
-sudo mv $OUTPUTDIR/sfe-$DEVICE-$RELEASE$EXTRA_NAME $OUTPUTDIR/SailfishOS-$DEVICE
-sudo rm $OUTPUTDIR/SailfishOS-$DEVICE/root.img
-sudo 7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on /share/output/SailfishOS-$DEVICE.7z  $OUTPUTDIR/SailfishOS-$DEVICE
+mv $OUTPUTDIR/sfe-$DEVICE-$RELEASE$EXTRA_NAME $OUTPUTDIR/SailfishOS-$DEVICE
+rm $OUTPUTDIR/SailfishOS-$DEVICE/root.img
+7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on /share/output/SailfishOS-$DEVICE.7z  $OUTPUTDIR/SailfishOS-$DEVICE
 
 pwd
 find /share
