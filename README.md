@@ -1,3 +1,3 @@
 # Sailfish on algiz
 
-Release build CI
+Release build CI for Volla Quintus
